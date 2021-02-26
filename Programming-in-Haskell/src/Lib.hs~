@@ -1,0 +1,699 @@
+module Lib
+    ( someFunc
+    ) where
+
+import Data.Char
+
+someFunc :: IO ()
+someFunc = putStrLn "Hola Joshua"
+
+fibonacci :: Int -> Int
+fibonacci 0 = 1
+fibonacci 1 = 1
+fibonacci x = fibonacci (x-1) + fibonacci (x-2)
+
+firstNterms :: Int -> [Int]
+firstNterms x = map fibonacci [1 .. x]
+
+multiply :: (Int, Int, Int) -> Int
+multiply (x, y, z) = x*y*z
+
+multiply2 :: Int -> Int -> Int -> Int
+multiply2 x y z = x*y*z
+
+--Cap 1 libro  ----------------------------
+-- ejercicio 1
+
+--double (double 2)
+-- = {aplicando el double interno}
+-- double (2 + 2)
+-- = {aplicando el double externo}
+-- (2 + 2) + (2 + 2)
+-- = {aplicando + en los parentesis}
+-- 4 + 4
+-- = {aplicando +}
+-- 8
+
+
+
+
+
+-- ejercicio 2
+--usamos la definicion de sum
+
+--sum [x] = x + sum []       porque ya no hay mas elementos en la lista
+-- = x + 0                   porque sum [] = 0
+-- = x                       porque x + 0 = x
+
+-- y como se puede ver no usamos alguna propiedad de x, solo el hecho que es un numero
+
+
+
+
+
+--ejercicio 3
+product2 :: [Int] -> Int
+product2 [] = 1
+product2 (n:ns) = n*product2(ns)
+
+
+
+
+
+
+
+--ejercicio 4
+--solo se debe de cambiar de lugar a "smaller" y "larger"
+rqsort :: [Int] -> [Int]
+rqsort [] = []
+rqsort (x:xs) = rqsort larger ++ [x] ++ rqsort smaller
+                where
+                  smaller = [a | a <- xs, a <= x]
+                  larger = [b | b <- xs, b > x]
+
+
+
+
+--ejercicio 5
+--Eliminaria los valores repetidos
+
+--Por ejemplo qsort [2, 2, 3, 1, 1] se evaluaria de la sig forma
+--qsort[2, 2, 3, 3, 1, 1] =
+--qsort [1, 1] ++ [2] ++ qsort [3] =
+--(qsort[] ++ [1] ++ qsort []) ++ [2] ++ (qsort[] ++ [3] ++ qsort []) =
+--([] ++ [1] ++ []) ++ [2] ++ ([] ++ [3] ++ []) =
+--{saltando algunas uniones}
+--[1, 2, 3]
+
+
+
+--Capitulo 2 -----------------------------------------------------------------
+--Ejercicio 1
+{-
+head [1,2,3,4,5]
+tail [1,2,3,4,5]
+[1,2,3,4,5] !! 2
+take 3 [1,2,3,4,5]
+drop 3 [1,2,3,4,5]
+length [1,2,3,4,5]
+sum [1,2,3,4,5]
+product [1,2,3,4,5]
+[1,2,3] ++ [4,5]
+reverse [1,2,3,4,5]
+
+double x = x + x
+quadruple x = double (double x)
+take (double 2) [1,2,3,4,5]
+-}
+
+
+--Ejercicio 2
+--(2^3)*4
+--(2*3)+(4*5)
+--2+(3*(4^5))
+
+
+
+--Ejercicio 3
+--Errores: sangria de la 2da a, la N mayuscula, las comillas son diferentes
+n = a `div` length xs
+--n = div (a) (length xs)
+     where
+       a = 10
+       xs = [1, 2, 3, 4, 5]
+
+-- Ejercicio 4
+--last [1,2,3] = head (reverse [1,2,3])
+a1 a = head (reverse a)
+--last [1,2,3] = [1,2,3] !! (length([1,2,3]) - 1)
+--a2 :: [a] -> a
+a2 a = a !! (length a - 1)
+--a2 = [1,2,3] !! (length([1,2,3]) - 1)
+
+
+-- Ejercicio 5
+--init [1,2,3] = reverse(tail(reverse[1,2,3]))
+a3 a = reverse(tail(reverse a))
+--init [1,2,3] = reverse(drop 1(reverse[1,2,3]))
+a4 a = reverse(drop 1(reverse a))
+
+
+
+--Capitulo 3 ---------------------------------------------------
+-- Ejercicio 1
+{-
+['a','b','c'] :: [Char]
+('a','b','c') :: (Char, Char, Char)
+[(False, '0'), (True, '1')] :: [(Bool, Char)]
+([False, True], ['0','1']) :: ([Bool], [Char])
+-------
+[tail, init, reverse] :: [[a] -> [a]]
+-}
+
+
+-- Ejercicio 2
+
+bools :: [Bool]
+bools = [True, False]
+
+nums :: [[Int]]
+nums = [[1,2,3],[4,5,6]]
+
+add :: Int -> Int -> Int -> Int
+add x y z = x+y+z
+
+copy :: a -> (a,a)
+copy x = (x, x)
+
+------
+apply :: (a -> b) -> a -> b
+apply f x = f x
+
+
+
+--Ejercicio 3
+second :: [a] -> a
+second xs = head(tail xs)
+
+swap :: (a,b) -> (b,a)
+swap (x,y) = (y,x)
+
+pair :: a -> b -> (a,b)
+pair x y = (x,y)
+
+double :: Num a => a -> a
+double x = x*2
+
+----------
+palindrome :: Eq a => [a] -> Bool
+palindrome xs = reverse xs == xs
+----------
+twice :: (x -> x) -> x -> x 
+twice f x = f (f x)
+
+-- Ejercicio 4
+-- Checar los resultados
+
+
+-- Ejercicio 5
+{- It isnt feasible for function types to be instances of the Eq class because we would need to check if for all equal arguments of the functions, the results are equal. It would become feasible if their domain and range are finite and/or small.
+-}
+
+-- Capitulo 4 ------------------------------------
+
+-- Ejercicio 1
+
+halve :: [a] -> ([a], [a])
+halve x |(length x) `mod` 2 == 0  = (take ((length x) `div` 2) x, drop ((length x) `div` 2) x )
+          |otherwise = undefined
+
+          
+-- Ejercicio 2
+
+third1 :: [a] -> a
+third1 x |(length x) >= 3 = head (tail ( tail x))
+         |otherwise = undefined
+         
+third2 :: [a] -> a
+third2 x |(length x) >= 3 = x !! 2
+         |otherwise = undefined
+
+third3 :: [a] -> a
+third3 (_:_:x:_) = x
+third3 _ = undefined
+
+
+-- Ejercicio 3
+
+safetail1 :: [a] -> [a]
+safetail1 x = if null x == True then [] else tail x
+
+safetail2 :: [a] -> [a]
+safetail2 x |null x == True = []
+            |otherwise = tail x
+
+safetail3 :: [a] -> [a]
+safetail3 [] = []
+safetail3 x = tail x
+
+
+-- Ejercicio 4
+
+{-
+(|||) :: Bool -> Bool -> Bool
+{-
+True ||| True = True
+True ||| False = True
+False ||| True = True
+False ||| False = False
+
+
+False ||| False = False
+_ ||| _ = True
+
+
+False || b = b
+True || _ = True
+
+
+a || b | a == b = a
+       |otherwise = True
+
+-}
+b ||| b = b
+_ ||| _ = True
+
+-}
+
+
+
+-- Ejercicio 5
+
+andf :: Bool -> Bool -> Bool
+andf a b = if a == True then (if b == True then True else False) else False
+
+-- Ejercicio 6
+andf2 :: Bool -> Bool -> Bool
+andf2 a b = if a == True then b else False 
+
+
+-- Ejercicio 7
+mult :: Int -> Int -> Int -> Int
+--mult = \x -> (\y -> (\z -> x*y*z))
+mult = \x y z -> x * y * z
+
+-- Ejercicio 8
+luhnDouble :: Int -> Int
+luhnDouble x |x > 9 || x < 0 = undefined 
+             |2*x > 9 = 2*x-9
+             |2*x <= 9 = 2*x
+
+luhn :: Int -> Int -> Int -> Int -> Bool
+luhn a b c d |(luhnDouble (a) + b + luhnDouble (c) + d) `mod` 10 == 0 = True
+             |otherwise = False
+             
+
+-- Capitulo 5 --------------------------------------------------------------------------
+
+-- Ejercicio 1
+squareSum = sum [x^2 | x <- [1..100]]
+
+
+-- Ejercicio 2
+grid :: Int -> Int -> [(Int, Int)]
+grid n m = [(x, y) | x <- [0..n], y <- [0..m]]
+
+-- Ejercicio 3
+square :: Int -> [(Int, Int)]
+square n = [(x,y) | (x,y) <- grid n n, x /= y]
+
+
+-- Ejercicio 4
+replicate2 :: Int -> a -> [a]
+replicate2 n x = [x | _ <- [1..n]]
+
+
+-- Ejercicio 5
+pyths :: Int -> [(Int, Int, Int)]
+pyths n = [(x, y, z) | x <- [1..n], y <- [1..n], z <- [x..n], x^2+y^2==z^2]
+
+
+-- Ejercicio 6
+factors :: Int -> [Int]
+factors n = [x | x <- [1..n], n `mod` x == 0]
+
+perfects :: Int -> [Int]
+perfects n = [x | x <- [1..n], 2*x == sum (factors x)]
+
+
+-- Ejercicio 7
+--[(x,y) | x <- [1,2], y <- [3,4]] ==
+--concat [[(x,y) | x <- [1,2]]| y <- [3,4] ]
+
+
+-- Ejercicio 8
+positions :: Eq a => a -> [a] -> [Int]
+positions x xs = [i | (b,i) <- zip xs [0.. ], x == b ]
+
+find :: Eq a => a -> [(a,b)] -> [b]
+find k t = [v | (k', v) <- t, k == k']
+
+positions2 :: Eq a => a -> [a] -> [Int]
+positions2 x xs = find x (zip xs [0..])
+
+
+-- Ejercicio 9
+scalarproduct :: [Int] -> [Int] -> Int
+scalarproduct x y = sum [a*b | (a,b) <- zip x y]
+
+
+-- Ejercicio 10
+
+-- A 65 Z 90 a 97 z 122
+--Lo del libro
+
+count :: Char -> String -> Int
+count x xs = length [x' | x' <- xs, x == x']
+
+let2int :: Char -> Int
+let2int c = ord c - ord 'a'
+
+int2let :: Int -> Char
+int2let n = chr (ord 'a' + n)
+
+shift :: Int -> Char -> Char
+shift n c |isLower c = int2let ((let2int c + n) `mod` 26)
+          |otherwise = c
+          
+encode :: Int -> String -> String
+encode n xs = [shift n x | x <- xs]
+
+
+percent :: Int -> Int -> Float
+percent n m = (fromIntegral n / fromIntegral m) * 100
+
+table :: [Float]
+table = [8.1, 1.5, 2.8, 4.2, 12.7, 2.2, 2.0, 6.1, 7.0,0.2, 0.8, 4.0, 2.4, 6.7, 7.5, 1.9, 0.1, 6.0,6.3, 9.0, 2.8, 1.0, 2.4, 0.2, 2.0, 0.1]
+
+
+freqs :: String -> [Float]
+freqs xs = [percent (count x xs) n | x <- ['a'..'z']]
+
+chisqr :: [Float] -> [Float] -> Float
+chisqr os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
+
+rotate :: Int -> [a] -> [a]
+rotate n xs = drop n xs ++ take n xs
+
+crack :: String -> String
+crack xs = encode (-factor) xs
+  where
+    factor = head (positions (minimum chitab) chitab)
+    chitab = [chisqr (rotate n table') table | n <- [0..25]]
+    table' = freqs xs
+
+------------------------------------------------------------
+--Lo que yo hice
+upperPos :: String -> [Int]
+upperPos x = [if isUpper b then 1 else 0 | b <- x]
+
+strtoLower :: String -> String
+strtoLower x  = [toLower a | a <- x] 
+
+makeUpper :: String -> [Int] -> String
+makeUpper x ns = [if b == 1 then toUpper a else a | (a,b) <- zip x ns]
+
+encode2 :: Int -> String -> String
+encode2 n xs = makeUpper (encode n (strtoLower xs)) (upperPos xs)
+
+
+crack2 :: String -> String
+crack2 xs = makeUpper (encode (-factor) (strtoLower xs)) (upperPos xs)
+  where
+    factor = head (positions (minimum chitab) chitab)
+    chitab = [chisqr (rotate n table') table | n <- [0..25]]
+    table' = freqs (strtoLower xs)
+
+--"Hello, World HOW are YOU,"
+--"Yvccf, Nficu YFN riv PFL,"
+
+
+
+
+-- Capitulo 6 ---------------------------------------------------------------
+-- Ejercicio 1
+
+--It would go to - infinity.
+fac :: Int -> Int
+fac 0 = 1
+fac n |n > 0 = n * fac (n-1)
+      |n < 0 = error "Negative not defined" 
+
+
+-- Ejercicio 2
+sumdown :: Int -> Int
+sumdown 0 = 0
+sumdown n |n > 0 = n + sumdown (n-1)
+          |n < 0 = error "Negative not defined"
+
+
+-- Ejercicio 3
+exp2 :: Integral a => a -> a -> a
+exp2 x 1 = x
+exp2 x y = x * exp2 x (y-1)
+
+{-
+exp2 2 3 =
+2 * exp2 2 2 =
+2 * 2 * exp2 2 1 =
+2 * 2 * 2 =
+8
+-}
+
+-- Ejercicio 4
+euclid :: Int -> Int -> Int
+euclid x y |x == y = x
+           |x > y && y > 0 = euclid (x-y) y
+           |y > x && x > 0 = euclid x (y-x)
+
+-- Ejercicio 5
+{-
+length :: [a] -> Int
+length [] = 0
+length (_:xs) = 1 + length xs
+
+length [1,2,3] =
+length (1:[2,3]) =
+1 + length [2,3] =
+1 + length (2:[3]) =
+1 + 1 + length (3:[]) =
+1 + 1 + 1 + length [] =
+1 + 1 + 1 + 0 =
+3
+
+drop :: Int -> [a] -> [a]
+drop 0 xs = xs
+drop _ [] = []
+drop n (_:xs) = drop (n-1) xs
+
+drop 3 [1,2,3,4,5] =
+drop 3 (1:[2,3,4,5]) =
+drop 2 (2:[3,4,5]) =
+drop 1 (3:[4,5]) =
+drop 0 [4,5] = [4,5]
+
+
+init :: [a] -> [a]
+init [_] = []
+init (x:xs) = x : init xs
+
+init [1,2,3] =
+init (1:[2,3]) =
+1 : init [2,3] =
+1 : init (2:[3]) =
+1 : 2 : init [3] =
+1 : 2 : [] =
+[1,2]
+
+-}
+
+-- Ejercicio 6
+andr :: [Bool] -> Bool
+andr [x] = x
+andr (False:_) = False
+andr (True:xs) = andr xs
+
+concatr :: [[a]] -> [a]
+concatr ([]:[]) = []
+concatr ([]:xs) = concatr (xs)
+concatr ((x:xs):ns) = x : concatr (xs:ns)
+
+replicater :: Int -> a -> [a]
+replicater 0 x = []
+replicater n x = x : replicater (n-1) x
+
+(!!!) :: [a] -> Int -> a
+(!!!) [] _ = error "Empty list not supported"
+(!!!) (x:xs) 1 = x
+(!!!) (x:xs) n = (!!!) xs (n-1)
+
+elemr :: Eq a => a -> [a] -> Bool
+elemr x [] = False
+elemr x (n:ns) |x == n = True
+               |otherwise = elemr x ns
+
+-- Ejercicio 7
+merge :: Ord a => [a] -> [a] -> [a]
+merge [] x = x
+merge x [] = x
+merge (a:as) (b:bs) |a >= b = b : merge (a:as) bs
+                    |b > a = a : merge as (b:bs)
+
+-- Ejercicio 8
+halve2 :: [a] -> ([a], [a])
+halve2 x |(length x) `mod` 2 == 0  = (take ((length x) `div` 2) x, drop ((length x) `div` 2) x )
+          |(length x) `mod` 2 == 1  = (take ((length (x) - 1) `div` 2) x, drop ((length (x) - 1) `div` 2) x )
+
+         
+msort :: Ord a => [a] -> [a]
+msort [] = []
+msort [x] = [x]
+msort x = merge (msort (fst (halve2 x))) (msort (snd (halve2 x)))
+
+
+
+
+-- Ejercicio 9
+sumr :: Num a => [a] -> a
+sumr [] = 0
+sumr (x:xs) = x + sumr xs
+
+
+taker :: Integral a => a -> [b] -> [b]
+taker 0 _ = []
+taker _ [] = []
+taker n (x:xs) = x : taker (n-1) xs
+
+
+lastelem :: [a] -> a
+lastelem [x] = x
+lastelem (x:xs) = lastelem xs
+
+
+
+-- Capitulo 7 ----------------------------------------------------------------------------
+
+-- Ejercicio 1
+--[f x | x <- xs, p x] ==
+--map f (filter p xs)
+
+
+-- Ejercicio 2
+allh :: (a -> Bool) -> [a] -> Bool
+allh f xs = foldr (&&) True (map f xs)
+
+anyh :: (a -> Bool) -> [a] -> Bool
+anyh f xs = foldr (||) False (map f xs)
+
+takeWhileh :: (a -> Bool) -> [a] -> [a]
+--takeWhileh f (x:xs) = foldr (\x -> if f x then : else ) []
+takeWhileh f [] = []
+takeWhileh f (x:xs) = if f x then x : takeWhileh f xs else takeWhileh f xs
+
+
+dropWhileh :: (a -> Bool) -> [a] -> [a]
+dropWhileh f [] = []
+dropWhileh f (x:xs) = if not (f x) then x : dropWhileh f xs else dropWhileh f xs
+
+-- Ejercicio 3
+
+--map2 :: (a -> b) -> [a] -> [b]
+--map2 f xs = foldr (\x y -> (f x)) [] 
+
+-- Ejercicio 4
+
+dec2int :: [Int] -> Int
+dec2int = foldl (\x y -> 10*x + y) 0
+
+-- Ejercicio 5
+
+testfunc :: (Int, Int) -> Int
+testfunc (a,b) = a+b
+
+curry2 :: ((a,b) -> c) -> (a -> b -> c)
+curry2 f = \x -> (\y -> f (x,y))
+
+--grid
+uncurry2 :: (a -> b -> c) -> ((a,b) -> c)
+uncurry2 f = \(x, y) -> f x y
+
+-- Ejercicio 6
+{-
+int2bin :: Int -> [Bit]
+int2bin 0 = []
+int2bin n = n `mod` 2 : int2bin (n `div` 2)
+
+iterate f x = [x, f x, f (f x), f (f (f x)), ...]
+
+chop8 :: [Bit] -> [[Bit]]
+chop8 [] = []
+chop8 bits = take 8 bits : chop8 (drop 8 bits)
+-}
+type Bit = Int
+
+unfold :: (t -> Bool) -> (t -> a) -> (t -> t) -> t -> [a]
+unfold p h t x  |p x = []
+               |otherwise = h x : unfold p h t (t x)
+
+int2bin :: Int -> [Bit]
+int2bin = unfold (== 0) (`mod` 2) (`div` 2)
+
+chop8' :: [Bit] -> [[Bit]]
+chop8' = unfold (== []) (take 8) (drop 8)
+
+map3 :: (a -> b) -> [a] -> [b]
+map3 f = unfold (null) (f. head) (tail)
+
+iterate2 :: (a -> a) -> a -> [a]
+iterate2 f = unfold (\_ -> False) (f) (\x -> f x) 
+
+
+
+
+
+
+
+
+-- Ejercicio 7
+bin2int :: [Bit] -> Int
+bin2int = foldr (\x y -> x + 2*y) 0
+
+make8 :: [Bit] -> [Bit]
+make8 bits = take 8 (bits ++ repeat 0)
+{-
+encodeb :: String -> [Bit]
+encodeb = concat . map (make8 . int2bin . ord)
+
+chop8 :: [Bit] -> [[Bit]]
+chop8 [] = []
+chop8 bits = take 8 bits : chop8 (drop 8 bits)
+
+decodeb :: [Bit] -> String
+decodeb = map (chr . bin2int) . chop8
+
+transmit :: String -> String
+transmit = decodeb . channel . encodeb
+
+channel :: [Bit] -> [Bit]
+channel = id
+-}
+-- 1 odd number of ones
+-- 0 even number of ones
+
+paritybit :: [Bit] -> [Bit]
+paritybit xs |even (sum xs) = xs ++ [0]
+             |odd (sum xs) = xs ++ [1]
+
+chop9 :: [Bit] -> [[Bit]]
+chop9 = unfold (== []) (take 9) (drop 9)
+
+encodeb2 :: String -> [Bit]
+encodeb2 = concat . map (paritybit.make8 . int2bin . ord)
+
+checkerror :: [Bit] -> [Bit]
+checkerror x |sum (init x) `mod` 2 == last x = init x
+             |otherwise = error "Information lost"
+             
+decodeb2 :: [Bit] -> String
+decodeb2 = map (chr . bin2int.checkerror) . chop9
+
+transmit2 :: String -> String
+transmit2 = decodeb2 . channel2 . encodeb2
+
+
+
+-- Ejercicio 8
+
+channel2 :: [Bit] -> [Bit]
+--channel2 = tail
+channel2 = id
