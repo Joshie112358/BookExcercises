@@ -14,4 +14,9 @@ nums = []
 
 
 -- switch :: Int -> Int -> [Int] -> [Int]
--- switch x y ns = (take (x-1) ns) : (ns !! y-1) : 
+-- switch x y ns = (take (x-1) ns) : (ns !! y-1) :
+
+
+-- este es un cambio que quiero ver reflejado :v
+-- porfa dejame ver el cambio
+-- jhriuahgiurhiuaruih
